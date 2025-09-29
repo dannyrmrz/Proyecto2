@@ -425,29 +425,42 @@ fn main() {
     while !window.window_should_close() {
         let mut camera_moved = false;
         
-        // Movimiento más suave con detección de teclas presionadas
+        // Controles de cámara mejorados:
+        // Flechas izquierda/derecha: rotación orbital horizontal
+        // Flechas arriba/abajo: zoom hacia adelante/atrás
+        
         if window.is_key_down(KeyboardKey::KEY_LEFT) {
-            camera.orbit(rotation_speed, 0.0);
+            camera.orbit(rotation_speed, 0.0); // Rotación hacia la izquierda
             camera_moved = true;
         }
         if window.is_key_down(KeyboardKey::KEY_RIGHT) {
-            camera.orbit(-rotation_speed, 0.0);
+            camera.orbit(-rotation_speed, 0.0); // Rotación hacia la derecha
             camera_moved = true;
         }
         if window.is_key_down(KeyboardKey::KEY_UP) {
-            camera.orbit(0.0, -rotation_speed);
+            camera.zoom(zoom_speed); // Zoom hacia adelante
             camera_moved = true;
         }
         if window.is_key_down(KeyboardKey::KEY_DOWN) {
-            camera.orbit(0.0, rotation_speed);
+            camera.zoom(-zoom_speed); // Zoom hacia atrás
+            camera_moved = true;
+        }
+        
+        // Controles adicionales con W, A, S, D para movimiento orbital
+        if window.is_key_down(KeyboardKey::KEY_A) {
+            camera.orbit(rotation_speed, 0.0);
+            camera_moved = true;
+        }
+        if window.is_key_down(KeyboardKey::KEY_D) {
+            camera.orbit(-rotation_speed, 0.0);
             camera_moved = true;
         }
         if window.is_key_down(KeyboardKey::KEY_W) {
-            camera.zoom(zoom_speed);
+            camera.orbit(0.0, -rotation_speed);
             camera_moved = true;
         }
         if window.is_key_down(KeyboardKey::KEY_S) {
-            camera.zoom(-zoom_speed);
+            camera.orbit(0.0, rotation_speed);
             camera_moved = true;
         }
 

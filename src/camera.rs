@@ -86,9 +86,19 @@ impl Camera {
         self.update_basis_vectors();
     }
 
+    /// Zoom hacia adelante/atrás manteniendo la dirección actual
     pub fn zoom(&mut self, amount: f32) {
         let forward = (self.center - self.eye).normalized();
         self.eye += forward * amount;
+        self.center += forward * amount;
+        self.update_basis_vectors();
+    }
+
+    /// Movimiento perpendicular al eje forward (strafe)
+    pub fn strafe(&mut self, amount: f32) {
+        let right = self.right;
+        self.eye += right * amount;
+        self.center += right * amount;
         self.update_basis_vectors();
     }
 
